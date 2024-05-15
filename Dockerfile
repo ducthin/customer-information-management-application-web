@@ -1,13 +1,8 @@
-FROM openjdk:17-jdk-slim AS build
-
-RUN apt-get update && apt-get install openjdk-17-jdk -y
+FROM maven:3.6.3-jdk-11 AS build
 COPY . .
-RUN ./gradlew build bootJar --no-daemon
-FROM openjdk:17-jdk-slim
+RUN mvn clean package -DskipTests
 
-EXPOSE 8080
+FROM openjdk:11-jre-slim
+COPY --from=build /target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
 
-COPY --from=build /build/libs/*.jar app.jar
-
-
-ENTRYPOINT ["java", "-Xshare:off", "-jar", "app.jar"]
