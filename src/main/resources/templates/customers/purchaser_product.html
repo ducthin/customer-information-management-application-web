@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+
+    }
+
+    .main {
+        width: 1200px;
+        height: 100vh;
+        margin: 0 auto;
+        padding: 30px 0;
+
+    }
+
+    .header {
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        width: 100%;
+        padding: 10px;
+        height: 100px;
+        background-color: hsl(218, 28%, 14%);
+    }
+
+    body{
+        background-color: #ffffff;
+    }
+    .header_image {
+        cursor: pointer;
+        height: 100%;
+        width: 90px;
+        overflow: hidden;
+        border-radius: 50%;
+    }
+
+    .header_image img {
+        height: 100%;
+        width: 100%;
+
+    }
+
+    .header_search {
+        display: flex;
+        cursor: pointer;
+        height: 45px;
+        width: 500px;
+        padding: 3px 0;
+    }
+
+    .header_search input {
+        width: 100%;
+        height: 100%;
+        outline: none;
+        border-radius: 5px;
+        border: none;
+        padding-left: 20px;
+        font-size: 15px;
+        color: #c7bdbd66;
+    }
+
+    .header_search_logo {
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
+        background-color: #000000;
+        border-radius: 0 5px 5px 0;
+        color: #fff;
+    }
+
+    .header_profile {
+        display: flex;
+        gap: 30px;
+    }
+
+    .header_profile i {
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .navbar {
+        width: 100%;
+        height: 100px;
+        padding: 30px;
+
+    }
+
+    .navbar ul {
+        list-style: none;
+        display: flex;
+        gap: 50px;
+    }
+
+    .navbar ul li {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .navbar ul li a {
+        text-decoration: none;
+        text-transform: capitalize;
+        color: black;
+    }
+
+    .navbar ul li:hover a {
+        color: brown;
+        transition-duration: 0.2s;
+    }
+
+    .navbar_li_image {
+        display: flex;
+        gap: 10px;
+    }
+
+    .content_header {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .content_header h1 {
+        margin: 25px 0 50px 0;
+        font-size: 40px;
+        font-weight: 700;
+        color: #000000;
+    }
+
+    .container {
+        display: grid;
+
+        width: 100%;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 30px;
+    }
+
+    .container_box{
+        background-color: #fff;
+        border-radius: 5px;
+        overflow: hidden;
+        border: 1px solid #ccc;
+        padding: 2px;
+    }
+
+    .container_box_describe {
+        width: 100%;
+        height: 20px;
+        padding: 0 0 0 10px;
+        margin-bottom: 25px;
+        font-size: large;
+        font-weight: 400;
+        color: #666;
+        line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .container_box_image {
+        width: 100%;
+        height: 300px;
+
+    }
+
+    .container_box_image img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .container_box_content {
+        margin: 25px 0 10px 0;
+        text-align: center;
+        font-size: 20px;
+        text-transform: capitalize;
+
+    }
+
+    .container_box {
+        height: 480px;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .container_box_price {
+        color: red;
+        margin-bottom: 15px;
+    }
+
+    .container_box_price {
+        padding: 0 0 0 10px;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .container_cart {
+        padding: 10px 0;
+        text-align: center;
+        background-color: hsl(218, 28%, 14%);
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .container_cart:hover {
+        opacity: 0.8;
+        transition: all;
+        transition-duration: 0.3s;
+    }
+
+    .container_cart a {
+        text-decoration: none;
+        font-size: 20px;
+        text-transform: capitalize;
+        color: #fff;
+    }
+
+    .information {
+        position: fixed;
+        display: none;
+        right: 5%;
+        top: 10%;
+        width: 200px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        background-color: green;
+        text-transform: capitalize;
+        color: white;
+        border-radius: 5px;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div class="main" th:action="@{/api/customer/showAllProduct}">
+    <div class="information">mua hang thanh cong</div>
+    <div class="header">
+        <div class="header_image">
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEABsbGxscGx4hIR4qLSgtKj04MzM4PV1CR0JHQl2NWGdYWGdYjX2Xe3N7l33gsJycsOD/2c7Z//////////////8BGxsbGxwbHiEhHiotKC0qPTgzMzg9XUJHQkdCXY1YZ1hYZ1iNfZd7c3uXfeCwnJyw4P/Zztn////////////////CABEIANgBIAMBIgACEQEDEQH/xAAbAAEBAAMBAQEAAAAAAAAAAAAABQMEBgIBB//aAAgBAQAAAADpQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaG+AAAGLQz7foCFu0AAAPM6XrUbeQBO439DAAHzRlzJtS/VAHjgM/dgAasuXLxZbl/bABy/OZf0T0AwzJcvVNy/cyAAY/zvw6LqPp4nS5egPta/VAAEfjBt0WrP8hluX9sAAHO8sADcv3fYAACDyQB9rX6oAAAYuAwAy3b+0AAAA1OWmeNmhXr+wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAKAgIQAxAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/xAA2EAACAQIEAggEAwkAAAAAAAABAgMABAURIVESMRMgMDIzQFJhBhAicYCBkRQjNUFCQ3KSof/aAAgBAQABPwD8EwnF1dGKM5xQ6yN6m9PmJJ4IdZZUT7mji1szcECSzvsgpDfy6sI4BsPrelXhHeZjuxz7DGMS6AG2hP7w981hcH7PZRD+b/W3lGdEGbuqjdjkKlxiwi/ulzsgqX4hflDAB7vSS4ziHcdwn+i1b4FENbmQyGo4ooV4Y0VF2A7HEr8WUO8r9yoENxcxISSZJAD+Z8iSACSchU2J2EPOcE7J9VS/EKcoYPzepsZv5eUvANkpneRs2ZmY76mrbBryfVh0S7vVtg9nBqV6Vt37OWVIYnlkOSIMzV3dSXc7zPWFfxC1/wA+2lvrODxLhB/01Lj9smkULvUuO3z9wpHUs80xzlldz7n5RQyzMEiRnbYCrbAZW1ncJ7CrextbXwogDvzPa49d5utqnJdX+UEphmilHNHDfpSsrqrKcwwBB9j2MtxBD4syJ9zU2O2UfcDy1Nj903hRpHU17dz+LO7dS2sLq68OI5eo6CrbAYU1ncvUcUcS8MaKi7AdtLIsMUkrckUsalkaWR5HObMST88IxRYgLec5J/Q9AggEcj1HkjjGckioN2OVS4zYRcnMh2QVN8QycoYFFTYnfT9+4fLYadUAkgCrbBrufVx0S7vVtg9nBqV6Rt38jjkvBY5etwOrb393a6RTMBtS4/e+iE0cfvfRCKkxfEJdDcEDZdKZmc5sxJ3PWihlnbgijZzsBVtgEja3D8HsKt7K2tfCiAO/M+T+I+5Z+5ftbawurrw4jl6joKtsBhTWdy5qOKOJeGNFRdgPK4/EWtoZPQ/ZAEkAVbYLdz6uOiXdqtsIs4NSnSNu/mJ4Unhkifk4yq5t5LWZ4pBqOvFBNO3DFGzn2q2wCQ63EgT2WreytrXwogDv5u7soLyPhlH2YcxVzgt5D3B0q7rTxSpo8bL9wRQVjyBNR2N5L3LeT9KhwK8fvlI6gwO0i1kzlNJGkahURVXYDL8HX//EABQRAQAAAAAAAAAAAAAAAAAAAHD/2gAIAQIBAT8AfP/EABQRAQAAAAAAAAAAAAAAAAAAAHD/2gAIAQMBAT8AfP/Z"
+                 alt="">
+        </div>
+        <div class="header_search">
+            <input type="text" placeholder="Search">
+            <div class="header_search_logo">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+        </div>
+        <div class="header_profile">
+            <a th:href="@{/logout}">
+
+                <i class="fa-solid fa-right-from-bracket" style="color: #fff"></i>
+            </a>
+            <i class="fa-solid fa-user" style="color: #fff"></i>
+            <i class="fa-solid fa-envelope" style="color: #fff"></i>
+        </div>
+    </div>
+    <div class="navbar">
+        <ul>
+            <li class="navbar_li_image">
+                <img src="	https://tokyolife.vn/_next/image?url=https%3A%2F%2…s.com%2Fcms%2F17046890836105389_512.png&w=32&q=75"
+                     alt="">
+                <span>Sale</span>
+            </li>
+            <li><a th:href="@{/auth/home}" style="color: #001cfa">Home</a></li>
+            <li><a href="">vui</a></li>
+            <li><a href="">long</a></li>
+            <li><a href="">them</a></li>
+            <li><a th:href="@{/api/address/save}" style="color: #001cfa">address</a></li>
+
+        </ul>
+    </div>
+    <div class="content_header">
+        <h3>Lifestyle Running Shoes</h3>
+    </div>
+    <div class="content_header">
+        <h1>EXTRA-ORDINARY</h1>
+    </div>
+    <div class="container" th:action="@{/api/customer/showAllProduct}">
+        <div class="container_box" th:each="product: ${products}">
+            <div class="container_box_image">
+                <img th:src="${product.image}" alt="">
+            </div>
+            <div th:text="${product.name}" class="container_box_content">
+                good majda
+            </div>
+            <div th:text="${product.describe}" class="container_box_describe">
+                abc
+            </div>
+            <div class="container_box_price">
+                <span th:text="${product.price}"></span> đ
+            </div>
+            <div class="container_cart">
+                <a th:href="@{/api/product/purchaser/{id} (id = ${product.id})}">Buy</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

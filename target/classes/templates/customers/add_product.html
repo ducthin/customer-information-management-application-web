@@ -1,0 +1,1113 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>crud dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!--google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            line-height: 1.8;
+            font-family: 'Poppins', sans-serif;
+            color: #555e58;
+            text-transform: capitalize;
+            font-weight: 400;
+            margin: 0;
+            padding: 0;
+        }
+
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://example.com/MaterialIcons-Regular.eot); /* For IE6-8 */
+            src: local('Material Icons'),
+            local('MaterialIcons-Regular'),
+            url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
+            url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
+            url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
+        }
+
+
+        .material-icons {
+            font-family: 'Material Icons', serif;
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+
+            /* Support for all WebKit browsers. */
+            -webkit-font-smoothing: antialiased;
+            /* Support for Safari and Chrome. */
+            text-rendering: optimizeLegibility;
+
+            /* Support for Firefox. */
+            -moz-osx-font-smoothing: grayscale;
+
+            /* Support for IE. */
+            font-feature-settings: 'liga';
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 400;
+            line-height: 1.5em;
+        }
+
+        p {
+            font-size: 15px;
+            margin: 12px 0 0;
+            line-height: 24px;
+        }
+
+        a {
+            color: #333;
+            font-weight: 400;
+
+        }
+
+
+        button:focus {
+            box-shadow: none;
+            outline: none;
+            border: none;
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+        ul, ol {
+            padding: 0px;
+            margin: 0px;
+            list-style: none;
+        }
+
+        a, a:hover, a:focus {
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+
+        .wrapper {
+            position: relative;
+            width: 100%;
+            overflow: auto;
+        }
+
+        #sidebar {
+            position: fixed;
+            height: 100% !important;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 11;
+            width: 260px;
+            overflow: auto;
+            transition: all 0.3s;
+            background-color: #fff;
+            box-shadow: 0 0 30px 0 rgba(200 200 200 / 20%);
+        }
+
+
+        @media only screen and (min-width: 992px) {
+            #sidebar.active {
+                left: -260px;
+                height: 100% !important;
+                position: absolute !important;
+                overflow: visible !important;
+                top: 0;
+                z-index: 666;
+                float: left !important;
+                bottom: 0 !important;
+            }
+
+            #content {
+                width: calc(100% - 260px);
+                position: relative;
+                float: right;
+                transition: all 0.3s;
+            }
+
+            #content.active {
+                width: 100%;
+            }
+
+        }
+
+
+        #sidebar::-webkit-scrollbar {
+            width: 5px;
+            border-radius: 10px;
+            background-color: #eee;
+            display: none;
+        }
+
+
+        #sidebar:hover::-webkit-scrollbar {
+            display: block;
+        }
+
+        #sidebar .sidebar-header {
+            padding: 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sidebar-header h3 {
+            color: #333;
+            font-size: 17px;
+            margin: 0px;
+            text-transform: uppercase;
+            transition: all 0.5s ease;
+            font-weight: 600;
+        }
+
+        .sidebar-header h3 img {
+            width: 45px;
+            margin-right: 10px;
+        }
+
+        #sidebar ul li {
+            padding: 2px 0px;
+        }
+
+        #sidebar ul li.active > a {
+            color: #4c7cf3;
+            background-color: #DBE5FD;
+        }
+
+
+        #sidebar ul li.active > a i {
+            color: #4c7cf3;
+        }
+
+
+        #sidebar ul li a:hover {
+            color: #4c7cf3;
+            background-color: #DBE5FD;
+        }
+
+
+        .dropdown-toggle::after {
+            position: absolute;
+            right: 22px;
+            top: 18px;
+            color: #777777;
+        }
+
+        #sidebar ul li.dropdown {
+            position: sticky;
+        }
+
+
+        #sidebar ul.component {
+            padding: 20px 0px;
+        }
+
+        #sidebar ul li a {
+            padding: 5px 10px 5px 20px;
+            line-height: 30px;
+            font-size: 15px;
+            position: relative;
+            font-weight: 400;
+            display: block;
+            color: #777777;
+            text-transform: capitalize;
+        }
+
+        #sidebar ul li a i {
+            position: relative;
+            margin-right: 10px;
+            top: 6px;
+        }
+
+
+        #content {
+            position: relative;
+            transition: all 0.5s;
+        }
+
+
+        .top-navbar {
+            width: 100%;
+            z-index: 9;
+            position: relative;
+            padding: 15px 30px;
+            background-color: hsl(218, 28%, 14%);
+        }
+
+        .xd-topbar {
+            width: 100%;
+            position: relative;
+        }
+
+        input[type="search"] {
+            background-color: #4a5263;
+            color: #fff;
+            padding-left: 20px;
+            border: none;
+            border-radius: 50px 0 0 50px;
+        }
+
+        .input-group-append {
+            margin-left: -1px;
+        }
+
+
+        .xp-searchbar .btn {
+            background-color: #4a5263;
+            color: #fff;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 0 50px 50px 0;
+            padding: 6px 15px;
+        }
+
+
+        .xp-breadcrumbbar .page-title {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+        .breadcrumb {
+            display: inline-flex;
+            background-color: transparent;
+            margin: 0;
+            padding: 10px 0 0;
+        }
+
+        .breadcrumb .breadcrumb-item a {
+            color: #777777;
+        }
+
+        .breadcrumb-item.active {
+            color: #6c757d;
+        }
+
+
+        .breadcrumb-item + .breadcrumb-item {
+            padding-left: .5rem;
+        }
+
+        .main-content {
+            padding: 30px 30px 0px 30px;
+        }
+
+        .navbar {
+            margin-left: 650px;
+
+            background-color: hsl(218, 28%, 14%);
+            color: #fff;
+        }
+
+        .navbar button {
+            background-color: transparent;
+            border: none;
+        }
+
+        .navbar button span {
+            color: #fff;
+        }
+
+        .xp-menubar {
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+            text-align: center;
+            margin-right: 20px;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.09);
+        }
+
+
+        .xp-menubar span {
+            margin: 9px;
+            padding: 0;
+            transform: rotate(90deg);
+        }
+
+        .navbar-nav > li.active {
+            color: #fff;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.08);
+        }
+
+        .navbar-nav > li > a {
+            color: #fff;
+        }
+
+        .navbar .notification {
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            display: block;
+            font-size: 9px;
+            border: 0;
+            background-color: #2bcd72;
+            min-width: 15px;
+            text-align: center;
+            padding: 1px 5px;
+            height: 15px;
+            border-radius: 2px;
+            line-height: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .xp-searchbar {
+                margin-top: 20px;
+            }
+        }
+
+        .navbar-nav > li.show .dropdown-menu {
+            transform: translate3d(0, 0, 0);
+            opacity: 1;
+            display: block;
+            visibility: visible;
+        }
+
+        .dropdown-menu {
+            border: 0;
+            box-shadow: 0 2px 5px 0 rgba(0 0 0 / 26%);
+            transform: translate3d(0, -20px, 0);
+            visibility: hidden;
+            position: absolute !important;
+            transition: all 150ms linear;
+            display: block;
+            min-width: 15rem;
+            right: 0;
+            left: auto;
+            opacity: 0;
+        }
+
+        .small-menu {
+            min-width: 10rem;
+        }
+
+
+        .dropdown-menu li > a {
+            font-size: 13px;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 2px;
+            font-weight: 400;
+            transition: all 150ms linear;
+        }
+
+
+        .dropdown-menu li > a .material-icons {
+            position: relative;
+            top: 3px;
+            color: #777;
+            margin-right: 6px;
+            font-size: 16px;
+
+        }
+
+        .navbar-nav > .active > a:focus {
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.08);
+        }
+
+        .navbar-nav li a {
+            position: relative;
+            display: block;
+            padding: 4px 10px !important;
+        }
+
+        .nav-item .nav-link .material-icons {
+            position: relative;
+            top: 10px;
+            font-size: 19px;
+        }
+
+        .xp-user-live {
+            position: absolute;
+            bottom: 5px;
+            right: 9px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #353b48;
+            background-color: #4c7cf3;
+        }
+
+        .table-wrapper {
+            background-color: #fff;
+            margin: 6px 0 40px 0;
+            width: 100%;
+            overflow: auto;
+            border-radius: 3px;
+            box-shadow: 0 1px 1px rgb(0 0 0 / 5%);
+        }
+
+        .table-title {
+            background: hsl(218, 28%, 14%);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            left: 0;
+            padding: 10px 30px;
+            border-radius: 0;
+        }
+
+        .table-title h2 {
+            margin: 5px 0 0;
+            font-size: 17px;
+        }
+
+        .table-title .btn {
+            color: #fff;
+            float: right;
+            font-size: 13px;
+            border: none;
+            min-width: 50px;
+            border-radius: 6px;
+            outline: none !important;
+            margin-left: 10px;
+        }
+
+        .table-title .btn i {
+            float: left;
+            font-size: 21px;
+            margin-right: 5px;
+        }
+
+        .table-title .btn span {
+            float: left;
+            margin-top: 2px;
+        }
+
+        table.table tr th, table.table tr td {
+            border-color: #e9e9e9;
+            padding: 8px 15px;
+            font-size: 14px;
+            font-weight: 400;
+            vertical-align: middle;
+        }
+
+        table.table tr th:first-child {
+            width: 60px;
+        }
+
+        table.table tr th:last-child {
+            width: 100px;
+        }
+
+        table.table-stripped tbody tr:nth-of-type(odd) {
+            background-color: #fcfcfc;
+        }
+
+        table.table-stripped.table-hover tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        table.table th i {
+            font-size: 17px;
+            margin: 6px 5px;
+            cursor: pointer;
+        }
+
+        table.table td:last-child {
+            opacity: 0.9;
+            font-size: 22px;
+            margin: 0 5px;
+        }
+
+        table.table td a {
+            font-weight: bold;
+            color: #566787;
+            display: inline-block;
+            text-decoration: none;
+            outline: none !important;
+        }
+
+        table.table td a:hover {
+            color: #2196F3;
+        }
+
+        .edit {
+            color: #FFC107;
+        }
+
+        .delete {
+            color: #fa0331;
+        }
+
+        table.table td i {
+            font-size: 19px;
+        }
+
+        .pagination {
+            float: right;
+            margin: 0 0 5px;
+        }
+
+        .pagination li a {
+            border: none;
+            font-size: 13px;
+            min-width: 30px;
+            min-height: 30px;
+            color: #999;
+            margin: 0 2px;
+            line-height: 30px;
+            border-radius: 2px !important;
+            text-align: center;
+            padding: 0 6px;
+        }
+
+        .pagination li a:hover {
+            color: #666;
+        }
+
+
+        .pagination li.disabled i {
+            color: #ccc;
+
+        }
+
+        .pagination li i {
+            font-size: 16px;
+            padding-top: 6px;
+        }
+
+        .hint-text {
+            float: left;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        .custom-checkbox input[type="checkbox"] {
+            opacity: 0;
+            position: absolute;
+            margin: 5px 0 0 3px;
+            z-index: 9;
+        }
+
+
+        .custom-checkbox label:before {
+            width: 18px;
+            height: 18px;
+        }
+
+        .custom-checkbox label:before {
+            content: "";
+            margin-right: 10px;
+            display: inline-block;
+            vertical-align: text-top;
+            background-color: #fff;
+            border: 1px solid #bbb;
+            border-radius: 2px;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+
+        .custom-checkbox input[type="checkbox"]:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 6px;
+            top: 3px;
+            width: 6px;
+            height: 11px;
+            border: solid #000;
+            border-width: 0 3px 3px 0;
+            transform: inherit;
+            z-index: 3;
+            transform: rotatez(45deg);
+        }
+
+        .custom-checkbox input[type="checkbox"]:checked + label:before {
+            border-color: #03A9F4;
+            background: #03A9F4;
+        }
+
+
+        .custom-checkbox input[type="checkbox"]:checked + label:after {
+            border-color: #fff;
+        }
+
+
+        .custom-checkbox input[type="checkbox"]:disabled + label:before {
+            color: #b8b8b8;
+            cursor: auto;
+            box-shadow: none;
+            background: #ddd;
+        }
+
+        .modal .modal-dialog {
+            max-width: 400px;
+        }
+
+        .modal .modal-header, .modal .modal-body, .modal .modal-footer {
+            padding: 20px 30px;
+        }
+
+        .modal .modal-content {
+            border-radius: 3px;
+        }
+
+        .modal .modal-footer {
+            background: #ecf0f1;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .modal .modal-title {
+            display: inline-block;
+        }
+
+        .modal .form-control {
+            border-radius: 2px;
+            box-shadow: none;
+            border-color: #dddddd;
+        }
+
+        .modal textarea.form-control {
+            resize: vertical;
+        }
+
+        .modal .btn {
+            border-radius: 2px;
+            min-width: 100px;
+        }
+
+        .modal form label {
+            font-weight: normal;
+        }
+
+        footer {
+            background-color: #353b48;
+            color: #fff;
+            text-align: center;
+            padding: 10px 30px;
+            position: relative;
+            width: 100%;
+        }
+
+        #sidebar.show-nav, .body-overlay.show-nav {
+            transform: translatex(0%);
+            opacity: 1;
+            display: block;
+            visibility: visible;
+            z-index: 15;
+        }
+
+        @media only screen and (max-width: 992px) {
+            #sidebar {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                z-index: 10;
+                width: 260px;
+                transform: translatex(-100%);
+                transition: all 150ms linear;
+                box-shadow: none !important;
+            }
+
+            .body-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: none;
+                visibility: hidden;
+                opacity: 0;
+                z-index: 3;
+                transition: all 150ms linear;
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+<div class="wrapper">
+
+    <div class="body-overlay"></div>
+
+    <!-------sidebar--design------------>
+
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <h3><img
+                    src="https://yt3.googleusercontent.com/saSp5mvibVFBQhBvwtvN0e3yBJXe5c68TVwd9VaiXR1wrcisGbyuWnTQbvDPCqKIbftywupc3w=s900-c-k-c0x00ffffff-no-rj"
+                    class="img-fluid" style="border-radius: 25px"/><span>vishweb design</span></h3>
+        </div>
+        <ul class="list-unstyled component m-0">
+            <li class="active">
+                <a href="#" class="dashboard"><i class="material-icons">dashboard</i>dashboard </a>
+            </li>
+
+            <li class="dropdown">
+                <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false"
+                   class="dropdown-toggle">
+                    <i class="material-icons">aspect_ratio</i>
+                    List Customer
+                </a>
+            </li>
+
+            <li class="dropdown">
+                <a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false"
+                   class="dropdown-toggle">
+                    <i class="material-icons">apps</i>widgets
+                </a>
+            </li>
+
+            <li class="dropdown">
+                <a href="#homeSubmenu3" data-toggle="collapse" aria-expanded="false"
+                   class="dropdown-toggle">
+                    <i class="material-icons">equalizer</i>charts
+                </a>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="#homeSubmenu4" data-toggle="collapse" aria-expanded="false"
+                   class="dropdown-toggle">
+                    <i class="material-icons">extension</i>UI Element
+                </a>
+            </li>
+
+            <li class="dropdown">
+                <a href="#homeSubmenu5" data-toggle="collapse" aria-expanded="false"
+                   class="dropdown-toggle">
+                    <i class="material-icons">border_color</i>forms
+                </a>
+            </li>
+
+            <li class="dropdown">
+                <a href="#homeSubmenu6" data-toggle="collapse" aria-expanded="false"
+                   class="dropdown-toggle">
+                    <i class="material-icons">grid_on</i>tables
+                </a>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="#homeSubmenu7" data-toggle="collapse" aria-expanded="false"
+                   class="dropdown-toggle">
+                    <i class="material-icons">content_copy</i>Pages
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-------sidebar--design- close----------->
+
+
+    <!-------page-content start----------->
+
+    <div id="content">
+
+        <!------top-navbar-start----------->
+
+        <div class="top-navbar">
+            <div class="xd-topbar">
+                <div class="row">
+                    <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                        <div class="xp-menubar">
+                            <span class="material-icons text-white">signal_cellular_alt</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 col-lg-3 order-3 order-md-2">
+                        <div class="xp-searchbar">
+                            <form>
+                                <div class="input-group">
+                                    <input type="search" class="form-control"
+                                           placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button class="btn" type="submit" id="button-addon2">Go
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
+                        <div class="xp-profilebar text-right">
+                            <nav class="navbar p-0">
+                                <ul class="nav navbar-nav flex-row ml-auto">
+                                    <li class="dropdown nav-item active">
+                                        <a class="nav-link" href="#" data-toggle="dropdown">
+                                            <span class="material-icons">notifications</span>
+                                            <span class="notification">4</span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <span class="material-icons">question_answer</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="dropdown nav-item">
+                                        <a class="nav-link" href="#" data-toggle="dropdown">
+                                            <img src="https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg"
+                                                 style="width:40px; border-radius:50%;"/>
+                                            <span class="xp-user-live"></span>
+                                        </a>
+                                        <ul class="dropdown-menu small-menu">
+                                            <li><a href="#">
+                                                <span class="material-icons">person_outline</span>
+                                                Profile
+                                            </a></li>
+                                            <li><a href="#">
+                                                <span class="material-icons">settings</span>
+                                                Settings
+                                            </a></li>
+                                            <li><a href="#">
+                                                <span class="material-icons">logout</span>
+                                                Logout
+                                            </a></li>
+
+                                        </ul>
+                                    </li>
+
+
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="xp-breadcrumbbar text-center">
+                    <h4 class="page-title">Dashboard</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Vishweb</a></li>
+                        <li class="breadcrumb-item active" aria-curent="page">Dashboard</li>
+                    </ol>
+                </div>
+
+
+            </div>
+        </div>
+        <!------top-navbar-end----------->
+
+
+        <!------main-content-start----------->
+
+        <div class="main-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-wrapper">
+
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
+                                    <h2 class="ml-lg-2">Manage Employees</h2>
+                                </div>
+                                <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
+                                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
+                                        <i class="material-icons">&#xE147;</i>
+                                        <span>Add New Employees</span>
+                                    </a>
+                                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal">
+                                        <i class="material-icons">&#xE15C;</i>
+                                        <span>Delete</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>First name</th>
+                                <th>Last name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+
+                            <tbody th:action="@{/api/admin/showAllCustomers}" th:object="${customers}">
+                            <tr th:each="customer : ${customers}">
+                                <th th:text="${customer.firstName}"></th>
+                                <th th:text="${customer.lastName}"></th>
+                                <th th:text="${customer.email}">cvxc</th>
+                                <th th:text="${customer.phone}">(78-555-229)</th>
+                                <th>
+                                    <a th:href="@{/api/admin/updateCustomer/${customer.id}}" href="#editEmployeeModal"
+                                       class="edit" data-toggle="modal">
+                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                    </a>
+                                    <a th:href="@{/api/admin/deleteCustomer/${customer.id}}" class="delete"
+                                       data-toggle="modal">
+                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                    </a>
+                                </th>
+                            </tr>
+
+                            </tbody>
+
+
+                        </table>
+
+                        <div class="clearfix">
+                            <div class="hint-text">showing <b>5</b> out of <b>25</b></div>
+                            <ul class="pagination">
+                                <li class="page-item disabled"><a href="#">Previous</a></li>
+                                <li class="page-item "><a href="#" class="page-link">1</a></li>
+                                <li class="page-item "><a href="#" class="page-link">2</a></li>
+                                <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                                <li class="page-item "><a href="#" class="page-link">4</a></li>
+                                <li class="page-item "><a href="#" class="page-link">5</a></li>
+                                <li class="page-item "><a href="#" class="page-link">Next</a></li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="modal fade" tabindex="-1" id="editEmployeeModal" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Edit Employees</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="emil" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <textarea class="form-control" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-success">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!----edit-modal end--------->
+
+
+                <!----delete-modal start--------->
+                <div class="modal fade" tabindex="-1" id="deleteEmployeeModal" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Delete Employees</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete this Records</p>
+                                <p class="text-warning"><small>this action Cannot be Undone,</small></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-success">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!----edit-modal end--------->
+
+
+            </div>
+        </div>
+
+        <!------main-content-end----------->
+
+
+        <!----footer-design------------->
+
+
+    </div>
+
+</div>
+
+
+<!-------complete html----------->
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".xp-menubar").on('click', function () {
+            $("#sidebar").toggleClass('active');
+            $("#content").toggleClass('active');
+        });
+
+        $('.xp-menubar,.body-overlay').on('click', function () {
+            $("#sidebar,.body-overlay").toggleClass('show-nav');
+        });
+    });
+</script>
+
+
+</body>
+
+</html>
