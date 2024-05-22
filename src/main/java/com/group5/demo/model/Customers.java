@@ -10,7 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,12 +20,12 @@ import java.util.List;
 public class Customers implements UserDetails {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String firstName;
     private String lastName;
-    private String phone;
+    private int phone;
     private String email;
     private String password;
     private int otp;
@@ -71,11 +70,11 @@ public class Customers implements UserDetails {
     }
 
 
-    public String getPhone() {
+    public int getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(int phone) {
         this.phone = phone;
     }
 
@@ -112,6 +111,10 @@ public class Customers implements UserDetails {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String getUsername() {
         return email;
@@ -137,10 +140,6 @@ public class Customers implements UserDetails {
         return enable;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -148,7 +147,6 @@ public class Customers implements UserDetails {
     public void setRole(Role role) {
         this.role = role;
     }
-
 
 
 }

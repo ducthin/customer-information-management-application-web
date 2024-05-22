@@ -7,19 +7,24 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import java.util.List;
 
 public interface CustomerService {
-    public List<Customers> findAll();
+    List<Customers> findAll();
 
-    public List<Customers> search(String keyword);
+    Customers findById(int theId);
 
-    public Customers findById(int theId);
+    void save(ResRequest theCustomer);
 
-    public void save(ResRequest theCustomer);
-    public void deleteById(int theId);
-    public void saveAdmin(ResRequest theCustomer);
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager(Customers request);
+    void deleteById(int theId);
 
-    public boolean findByEmails(String lastname);
-    public Customers findByEmail(String email);
-    public Customers updateCustomer(int id,ResRequest theCustomer);
+    void saveAdmin(ResRequest theCustomer);
+
+    InMemoryUserDetailsManager inMemoryUserDetailsManager(Customers request);
+
+    boolean findByEmails(String lastname);
+
+    Customers findByEmail(String email);
+
+    Customers updateCustomer(int id, ResRequest theCustomer);
+
+    int RandomOtp();
 }
 

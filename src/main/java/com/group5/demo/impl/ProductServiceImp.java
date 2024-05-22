@@ -2,7 +2,6 @@ package com.group5.demo.impl;
 
 import com.group5.demo.dao.ProductRepository;
 import com.group5.demo.model.Product;
-import com.group5.demo.request.RequestProduct;
 import com.group5.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +12,7 @@ import java.util.List;
 public class ProductServiceImp implements ProductService {
     @Autowired
     private ProductRepository productRepository;
+
     @Override
     public Product saveProduct(Product requestProduct) {
         return productRepository.save(requestProduct);
@@ -40,7 +40,6 @@ public class ProductServiceImp implements ProductService {
     }
 
 
-
     @Override
     public void delete(int name) {
         productRepository.deleteById(name);
@@ -48,8 +47,7 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public boolean isProduct(String name) {
-        Product product=  findProduct(name);
-        if(product == null) return false;
-        else return true;
+        Product product = findProduct(name);
+        return product != null;
     }
 }

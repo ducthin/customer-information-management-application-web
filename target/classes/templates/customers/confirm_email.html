@@ -138,6 +138,7 @@
         }
 
         .alert-danger {
+            text-align: center;
             background-color: #f8d7da;
             color: #842029;
             border-color: #f5c2c7;
@@ -187,8 +188,8 @@
 <body>
 <div class="container" id="container">
     <div class="form-container sign-in">
-        <form action="#" method="post" th:action="@{/auth/loginPage}">
-            <h1>Sign In</h1>
+        <form action="#" method="post" th:action="@{/auth/confirm}" th:object="${customers}">
+            <h1>Confirm Email</h1>
             <div class="social-icons">
                 <a class="icon" href="#"><i class="fa-brands fa-google-plus-g"></i></a>
                 <a class="icon" href="#"><i class="fa-brands fa-facebook-f"></i></a>
@@ -197,50 +198,32 @@
             </div>
 
             <span>or use your email and password</span>
-            <input name="username" placeholder="Email" required type="email">
-            <input name="password" placeholder="Password" required type="password">
+            <input placeholder="OTP" required th:field="*{otp}" type="password">
+            <input placeholder="Confirm OTP" required th:field="*{phone}" type="password">
 
             <!-- Place for messages: error, alert etc ... -->
             <div>
                 <div>
                     <div>
                         <!-- Check for login error -->
-                        <div th:if="${param.error}">
+                        <div th:if="${message != null}">
 
-                            <div class="alert-danger">
-                                Invalid username and password.
+                            <div class="alert-danger" th:text="${message}">
+                                OTP Error
                             </div>
 
                         </div>
 
-                        <!-- Check for logout -->
-                        <div th:if="${param.logout}">
-
-                            <div class="alert-success">
-                                You have been logged out.
-                            </div>
-
-                        </div>
 
                         <!-- Check for sign up success -->
-                        <div th:if="${param.success}">
 
-                            <div class="alert-success2">
-                                Successful registration.
-                            </div>
-
-                        </div>
                     </div>
                 </div>
             </div>
 
             <a href="#">Forget Your Password?</a>
-            <button type="submit">Sign In</button>
-            <div class="signup">
-                <span class="signup">Don't have an account?
-                    <a th:href="@{/auth/saveRegister}">Sign up</a>
-                </span>
-            </div>
+            <button type="submit">Confirm</button>
+
         </form>
     </div>
 </div>

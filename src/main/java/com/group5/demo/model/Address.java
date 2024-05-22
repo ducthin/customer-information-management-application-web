@@ -1,6 +1,5 @@
 package com.group5.demo.model;
 
-import com.group5.demo.model.Customers;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

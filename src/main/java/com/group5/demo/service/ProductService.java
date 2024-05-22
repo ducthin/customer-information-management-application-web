@@ -1,21 +1,22 @@
 package com.group5.demo.service;
 
 import com.group5.demo.model.Product;
-import com.group5.demo.request.RequestProduct;
 
 import java.util.List;
 
 public interface ProductService {
 
-    public Product saveProduct(Product requestProduct);
+    Product saveProduct(Product requestProduct);
 
-    public List<Product> getAllProduct();
+    List<Product> getAllProduct();
 
-    public Product findProduct(String Street);
-    public Product findByID(int id);
+    Product findProduct(String Street);
 
-    public List<Product> findByCustomerId(int id);
-    public void delete(int address);
+    Product findByID(int id);
 
-    public boolean isProduct(String street);
+    List<Product> findByCustomerId(int id);
+
+    void delete(int address);
+
+    boolean isProduct(String street);
 }

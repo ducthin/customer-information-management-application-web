@@ -2,7 +2,6 @@ package com.group5.demo.impl;
 
 import com.group5.demo.dao.AddressRepository;
 import com.group5.demo.model.Address;
-import com.group5.demo.request.RequestAddress;
 import com.group5.demo.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +12,7 @@ import java.util.List;
 public class AddressServiceImp implements AddressService {
     @Autowired
     private AddressRepository addressRepository;
+
     @Override
     public Address saveAddress(Address requestAddress) {
 
@@ -37,7 +37,6 @@ public class AddressServiceImp implements AddressService {
     @Override
     public boolean isAddress(String street) {
         Address address = findAddress(street);
-        if(address == null) return false;
-        else return true;
+        return address != null;
     }
 }

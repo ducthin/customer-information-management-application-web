@@ -26,22 +26,19 @@ public class CustomerServiceImpl implements CustomerService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private EmailService emailService;
+
     @Autowired
     public CustomerServiceImpl(CustomerRepository theCustomerRepository) {
 
         customerRepository = theCustomerRepository;
     }
+
     @Override
     public List<Customers> findAll() {
 
         return customerRepository.findAll();
     }
 
-    @Override
-    public List<Customers> search(String keyword) {
-
-        return customerRepository.findByPhoneContaining(keyword);
-    }
 
     @Override
     public Customers findById(int theId) {
@@ -51,8 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         if (result.isPresent()) {
             customer = result.get();
-        }
-        else {
+        } else {
             // we didn't find the employee
             throw new RuntimeException("Did not find employee id - " + theId);
         }
@@ -68,9 +64,12 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setLastName(theCustomer.getLastName());
         customer.setPhone(theCustomer.getPhone());
         customer.setRole(Role.USER);
-        customer.setEnable(true);
+        customer.setEnable(false);
 
+        int otp = RandomOtp();
+        customer.setOtp(otp);
         customerRepository.save(customer);
+        emailService.sender(customer);
 
 
     }
@@ -86,9 +85,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setPhone(theCustomer.getPhone());
         customer.setRole(Role.USER);
         customer.setEnable(true);
-
         customerRepository.save(customer);
-
     }
 
     @Override
@@ -108,28 +105,22 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean findByEmails(String lastname) {
-        Customers customers= findByEmail(lastname);
-        if(customers != null)
-        {
-            return true;
-        }else {
-            return false;
-        }
+        Customers customers = findByEmail(lastname);
+        return customers != null;
     }
 
     @Override
     public Customers findByEmail(String email) {
         Optional<Customers> customersEmail = customerRepository.findByEmail(email);
         Customers customers = null;
-        if(customersEmail.isPresent())
-        {
+        if (customersEmail.isPresent()) {
             customers = customersEmail.get();
         }
         return customers;
     }
 
     @Override
-    public Customers updateCustomer(int id,ResRequest theCustomer) {
+    public Customers updateCustomer(int id, ResRequest theCustomer) {
         Customers customer = findById(id);
         customer.setFirstName(theCustomer.getFirstName());
         customer.setLastName(theCustomer.getLastName());
@@ -138,14 +129,8 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.save(customer);
     }
 
-
-    private String emailSender(String name,String link)
-    {
-        return "Hi "+name+ " vui long xac nhan email cua ban: " + link;
-    }
-    private int RandomOtp()
-    {
+    public int RandomOtp() {
         Random random = new Random();
-        return random.nextInt(100_000,999_999);
+        return random.nextInt(100_000, 999_999);
     }
 }

@@ -15,12 +15,13 @@ public class UserServiceImp implements UserDetailsService {
     private CustomerRepository customerRepository;
     @Autowired
     private CustomerService customerService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return (UserDetails) customerRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("not found user"));
+        return customerRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("not found user"));
     }
 
-    public Customers saveCustomer(String username){
+    public Customers saveCustomer(String username) {
         UserDetails userDetails = loadUserByUsername(username);
         Customers customers = customerService.findByEmail(userDetails.getUsername());
         return customers;

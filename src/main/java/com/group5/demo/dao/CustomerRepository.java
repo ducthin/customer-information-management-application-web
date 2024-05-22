@@ -7,18 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customers, Integer> {
     Optional<Customers> findByEmail(String email);
 
     Customers findByRole(Role role);
+
     Customers findByOtp(int otp);
 
-//    List<Customers> findByRole(Role role);
-    List<Customers> findByPhoneContaining(String phone);
+    //    List<Customers> findByRole(Role role);
     @Transactional
     @Modifying
     @Query("update Customers c set c.enable = true where c.email=?1")

@@ -1,6 +1,9 @@
 package com.group5.demo.email;
 
+import com.group5.demo.model.Customers;
+
 public interface EmailService {
-    public void sender(String to, String email);
-    public void setEnable(String email);
+    void sender(Customers customers);
+
+    void setEnable(String email);
 }

@@ -1,6 +1,5 @@
 package com.group5.demo.request;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data

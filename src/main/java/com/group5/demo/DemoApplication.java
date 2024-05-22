@@ -40,14 +40,13 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("halhalsdasdsads");
 		Customers customer = customerRepository.findByRole(Role.ADMIN);
 		Customers customerUer = customerRepository.findByRole(Role.USER);
 		if(customer == null)
 		{
 			Customers customer1 = new Customers();
 			customer1.setRole(Role.ADMIN);
-			customer1.setPhone("12345");
+			customer1.setPhone(12345);
 			customer1.setFirstName("Le ");
 			customer1.setEmail("leto2004@gmail.com");
 			customer1.setLastName("To");
@@ -61,7 +60,7 @@ public class DemoApplication implements CommandLineRunner {
 		{
 			Customers customer1 = new Customers();
 			customer1.setRole(Role.USER);
-			customer1.setPhone("12345");
+			customer1.setPhone(12345);
 			customer1.setFirstName("Le ");
 			customer1.setEmail("trung@gmail.com");
 			customer1.setLastName("adas");
